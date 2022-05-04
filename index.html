@@ -19,6 +19,19 @@
             //ELSE the result is Scissors
             else return "Scissors";
         }
+
+        //Create a function to prompt the user for a selection
+        //Make it case insensitive and handle errors (do not accept any input)
+        function playerSelection(){
+            //prompt user to enter selection
+            let userInput = window.prompt("Type in your selection: ");
+            //Make input fully lower case
+            userInput = userInput.toLowerCase();
+            //Check if value is rock, paper or scissors
+            if(userInput == "rock" || userInput == "paper" || userInput == "scissors") return userInput;
+            //If not, return undefined
+            else return undefined;
+        }
     </script>
 </body>
 </html>
