@@ -13,28 +13,28 @@
             //Generate a random value in the range of 0 to 1
             let result = Math.random();
             //IF the result is less then 1/3 then its Rock
-            if(result < (1/3)) return "Rock";
+            if(result < (1/3)) return "rock";
             //IF the result is between 1/3 and 2/3 then its Paper
-            else if(result < (2/3) && result > (1/3)) return "Paper";
+            else if(result < (2/3) && result > (1/3)) return "paper";
             //ELSE the result is Scissors
-            else return "Scissors";
+            else return "scissors";
         }
 
         //Create a function to prompt the user for a selection
         //Make it case insensitive and handle errors (do not accept any input)
         function promptPlayer(){
-            //prompt user to enter selection
-            let userInput = window.prompt("Type in your selection: ");
-            //Make input fully lower case
-            userInput = userInput.toLowerCase();
-            //Check if value is rock, paper or scissors
-            if(userInput == "rock" || userInput == "paper" || userInput == "scissors") return userInput;
-            //If not, return undefined
-            else return undefined;
+            let validEntry = false;
+            while(!validEntry){
+                //prompt user to enter selection
+                let userInput = window.prompt("Type in your selection (rock, paper or scissors): ");
+                //Make input fully lower case
+                userInput = userInput.toLowerCase();
+                //Check if value is rock, paper or scissors
+                if(userInput == "rock" || userInput == "paper" || userInput == "scissors") return userInput;
+                //If not, do not return!
+                else console.log("Entry is not valid!");
+            }
         }
-
-        const playerSelection = "rock";
-        const computerSelection = computerPlay();
 
         //Create a function that checks who is the winner
         function playRound(playerSelection, computerSelection){
@@ -43,17 +43,67 @@
             if((playerSelection == "rock" && computerSelection == "scissors") ||
                (playerSelection == "paper" && computerSelection == "rock") ||
                (playerSelection == "scissors" && computerSelection == "paper"))
-               return "You Win! " + playerSelection + " beats " + computerSelection;
+               //return "You Win! " + playerSelection + " beats " + computerSelection;
+               return "win";
             //Create if for the tie possibilites
             else if((playerSelection == "rock" && computerSelection == "rock") ||
                     (playerSelection == "paper" && computerSelection == "paper") ||
                     (playerSelection == "scissors" && computerSelection == "scissors"))
-                return "It's a Tie!";
+                //return "It's a Tie!";
+                return "tie";
             //Create if for the lose possibilities
-            else return "You Lose! " + computerSelection + " beats " + playerSelection;
+            else{
+                //return "You Lose! " + computerSelection + " beats " + playerSelection;
+                return "lose";
+            }
         }
 
-        console.log(playRound(playerSelection, computerSelection));
+        //create a function for running 5 games and store the results
+        function game(){
+            //create variables to store the results
+            let playerScore = 0, computerScore = 0;
+            //Create variables to store selections
+            let playerSelection, computerSelection;
+            //create variable for while loops counter value
+            let counter = 0;
+            //Run the whole process 5 times
+            while(counter != 5)
+            {
+                //create variable for current result
+                let roundResult = undefined;
+                //set selections to default value to avoid stuck data
+                playerSelection = undefined;
+                computerSelection = undefined;
+                //get input from user
+                playerSelection = promptPlayer();
+                //Check players selection, if its valid
+                if(playerSelection != undefined){
+                    //run computerPlay to get computers selection
+                    computerSelection = computerPlay();
+                    //call playRound to get the result
+                    roundResult = playRound(playerSelection, computerSelection);
+                    //increment result counter, announce round result
+                    if(roundResult == "win") {
+                        playerScore++;
+                        console.log("You Win! Player: " + playerScore + " Computer: " + computerScore);
+                    }
+                    else if(roundResult == "lose") {
+                        computerScore++;
+                        console.log("You Lose! Player: " + playerScore + " Computer: " + computerScore);
+                    }
+                    else{
+                        console.log("It's a tie! Player: " + playerScore + " Computer: " + computerScore);
+                    }
+                    //increment counter
+                    counter++;
+                }
+                else console.log("Players selection is not valid!");
+            }
+            
+            // after the 5 runs announce the final result
+
+        }
+
     </script>
 </body>
 </html>
