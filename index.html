@@ -37,6 +37,9 @@
 
         //Create a function that checks who is the winner
         function playRound(playerSelection, computerSelection){
+
+            if(playCounter === 5) return;
+
             playerSelection = playerSelection.toLowerCase();
             playCounter += 1;
             //Create if for the winner possibilities
@@ -45,84 +48,59 @@
                (playerSelection == "scissors" && computerSelection == "paper")){
                gameResult.textContent = "You win!";
                playerScore += 1;
-               return "win";
+               //return "win";
                }
             //Create if for the tie possibilites
             else if((playerSelection == "rock" && computerSelection == "rock") ||
                     (playerSelection == "paper" && computerSelection == "paper") ||
                     (playerSelection == "scissors" && computerSelection == "scissors")){
                         gameResult.textContent = "It's a tie!";
-                        return "tie";
+                        //return "tie";
                     }
             //Create if for the lose possibilities
             else{
                 gameResult.textContent = "You lose!";
                 computerScore += 1;
-                return "lose";
+                //return "lose";
             }
+
+            score.textContent = "";
+            score.textContent = (playCounter != 5) ? "Current score " : "Final score ";
+            score.textContent += `is ${playerScore} - ${computerScore}`;
+
+            if(playCounter === 5){
+                if(playerScore > computerScore) score.textContent += " YOU WON THE GAME!"
+                else if(playerScore < computerScore) score.textContent += " YOU LOST THE GAME!"
+                else score.textContent += " THE GAME IS A TIE!";
+                const restartButton = document.createElement('button');
+                restartButton.textContent = "Restart";
+                resultContainer.appendChild(restartButton);
+                restartButton.addEventListener('click', () => {
+                    playCounter = 0;
+                    playerScore = 0;
+                    computerScore = 0;
+                    score.textContent = "";
+                    gameResult.textContent = "";
+                    //restartButton.removeEventListener('click');
+                    resultContainer.removeChild(restartButton);
+                });
+            }
+
         }
 
-        const rockButton = document.querySelector('#rock');
+const rockButton = document.querySelector('#rock');
         rockButton.addEventListener('click', () => {
-            console.log(playRound('rock', computerPlay()));
+            playRound('rock', computerPlay());
         });
-        const paperButton = document.querySelector('#paper');
+const paperButton = document.querySelector('#paper');
         paperButton.addEventListener('click', () => {
-            console.log(playRound('paper', computerPlay()));
+            playRound('paper', computerPlay());
         });
-        const scissorsButton = document.querySelector('#scissors');
+const scissorsButton = document.querySelector('#scissors');
         scissorsButton.addEventListener('click', () => {
-            console.log(playRound('scissors', computerPlay()));
+            playRound('scissors', computerPlay());
         });
 
-        //create a function for running 5 games and store the results
-        /* function game(){
-            //create variables to store the results
-            //Create variables to store selections
-            let playerSelection, computerSelection;
-            //create variable for while loops counter value
-            //Run the whole process 5 times
-            while(counter != 5)
-            {
-                //create variable for current result
-                let roundResult = undefined;
-                //set selections to default value to avoid stuck data
-                playerSelection = undefined;
-                computerSelection = undefined;
-                //get input from user
-                playerSelection = promptPlayer();
-                    //Check players selection, if its valid
-                if(playerSelection != undefined){
-                    //run computerPlay to get computers selection
-                        computerSelection = computerPlay();
-                    //call playRound to get the result
-                    roundResult = playRound(playerSelection, computerSelection);
-                        //increment result counter, announce round result
-                    if(roundResult == "win") {
-                        playerScore++;
-                        console.log("You Win! Player: " + playerScore + " Computer: " + computerScore);
-                        }
-                    else if(roundResult == "lose") {
-                        computerScore++;
-                        console.log("You Lose! Player: " + playerScore + " Computer: " + computerScore);
-                        }
-                    else{
-                        console.log("It's a tie! Player: " + playerScore + " Computer: " + computerScore);
-                        }
-                    //increment counter
-                    counter++;
-                }
-                else console.log("Players selection is not valid!");
-                }
-            
-            // after the 5 runs announce the final result
-            if(playerScore > computerScore)
-                console.log("You win the game! Final result is (P - C) " + playerScore + " - " + computerScore);
-                else if(playerScore < computerScore)
-                console.log("You lose the game! Final result is (P - C) " + playerScore + " - " + computerScore);
-                else
-                console.log("It's a tie! Final result is (P - C) " + playerScore + " - " + computerScore);
-        } */
 
     </script>
 </body>
